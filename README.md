@@ -101,3 +101,18 @@ module and a generic-program CPU integration test. The current ROM is a fixed
 synthesizable constant and there is no external program-loading interface,
 interrupt mechanism, or pipeline. FPGA block-RAM inference is not claimed;
 see [`docs/fpga_implementation.md`](docs/fpga_implementation.md).
+
+## TR-8-A32N roadmap
+
+The next-generation design is specified separately in:
+
+- [`docs/tr8_ai_architecture.md`](docs/tr8_ai_architecture.md)
+- [`docs/cpu_isa.md`](docs/cpu_isa.md)
+- [`docs/bus_specification.md`](docs/bus_specification.md)
+- [`docs/npu_programming_model.md`](docs/npu_programming_model.md)
+- [`docs/verification_plan.md`](docs/verification_plan.md)
+- [`docs/fpga_resource_estimates.md`](docs/fpga_resource_estimates.md)
+
+These documents define a 32-bit multi-cycle CPU, a memory-mapped 2x2 INT8
+NPU, and a staged verification plan. No TR-8-A32N RTL has been implemented
+yet, and the existing 8-bit implementation remains unchanged.
