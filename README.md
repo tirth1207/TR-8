@@ -79,12 +79,25 @@ in GTKWave and add signals under `tb_tr8_cpu/dut`, including the PC,
 instruction, decoded fields, ALU signals, register write-back signals, RAM
 signals, `DEBUG_ZERO`, and `HALTED`.
 
-To change the sample program, edit the constant entries in
-[`src/instruction_rom.vhd`](src/instruction_rom.vhd) and rerun the tests.
+To assemble a readable program, use:
+
+```bat
+python tools\tr8_assembler.py programs\store_load.asm
+```
+
+The shared encoding package is
+[`src/tr8_isa_pkg.vhd`](src/tr8_isa_pkg.vhd), and the CPU accepts a typed ROM
+generic so integration tests can provide alternate programs without changing
+the processor datapath.
+
+To change the default sample program, edit `SAMPLE_PROGRAM` in
+[`src/tr8_isa_pkg.vhd`](src/tr8_isa_pkg.vhd) and rerun the tests.
 
 ## Files and limitations
 
-The `src` directory contains one entity per hardware module. The `tb`
-directory contains an assertion-based testbench for every module and the
-complete CPU. The current ROM is a fixed synthesizable constant and there is
-no external program-loading interface, interrupt mechanism, or pipeline.
+The `src` directory contains one entity per hardware module plus the shared ISA
+package. The `tb` directory contains an assertion-based testbench for every
+module and a generic-program CPU integration test. The current ROM is a fixed
+synthesizable constant and there is no external program-loading interface,
+interrupt mechanism, or pipeline. FPGA block-RAM inference is not claimed;
+see [`docs/fpga_implementation.md`](docs/fpga_implementation.md).

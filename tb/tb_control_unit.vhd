@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.TR8_ISA_PKG.ALL;
 use STD.ENV.ALL;
 
 entity TB_CONTROL_UNIT is
@@ -17,17 +18,17 @@ begin
                   ram_we, jump, halt);
     process
     begin
-        rd <= "10"; opcode <= "0001"; wait for 1 ns;
+        rd <= "10"; opcode <= OP_LDI; wait for 1 ns;
         assert reg_we = '1' and waddr = "10" and wb_sel = "01"
             report "LDI control failed" severity failure;
-        opcode <= "1000"; wait for 1 ns;
+        opcode <= OP_STORE; wait for 1 ns;
         assert ram_we = '1' and reg_we = '0'
             report "STORE control failed" severity failure;
-        opcode <= "1010"; zero <= '0'; wait for 1 ns;
+        opcode <= OP_JZ; zero <= '0'; wait for 1 ns;
         assert jump = '0' report "JZ false branch failed" severity failure;
         zero <= '1'; wait for 1 ns;
         assert jump = '1' report "JZ true branch failed" severity failure;
-        opcode <= "1011"; wait for 1 ns;
+        opcode <= OP_HALT; wait for 1 ns;
         assert halt = '1' and jump = '0' and ram_we = '0'
             report "HALT control failed" severity failure;
         opcode <= "1111"; wait for 1 ns;

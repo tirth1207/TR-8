@@ -1,49 +1,52 @@
 v 4
-file . "tb\tb_register_file.vhd" "ae42fa4e988293b6f0fffc54473012e8764a50e1" "20261104182219.405":
-  entity tb_register_file at 2( 2) + 0 on 143;
-  architecture sim of tb_register_file at 9( 120) + 0 on 144;
-file . "tb\tb_alu.vhd" "c2cc2a20acb5e4255141db179aa8ded48c31a9ed" "20261104182219.404":
-  entity tb_alu at 2( 2) + 0 on 141;
-  architecture sim of tb_alu at 9( 100) + 0 on 142;
-file . "tb\tb_and_gate.vhd" "14f9fcac99430e487b864357ce88adc3ec3adda1" "20261104182219.400":
-  entity tb_and_gate at 2( 2) + 0 on 139;
-  architecture sim of tb_and_gate at 9( 110) + 0 on 140;
-file . "src\tr8_cpu.vhd" "4a8988d52fa7431b5f21e96091e440ba40b9d014" "20261104182219.371":
-  entity tr8_cpu at 1( 0) + 0 on 137;
-  architecture rtl of tr8_cpu at 33( 1548) + 0 on 138;
-file . "src\control_unit.vhd" "b2e81f21ac3f5463c3da4b8edef8d93543f14000" "20261104182219.370":
-  entity control_unit at 1( 0) + 0 on 135;
-  architecture rtl of control_unit at 19( 576) + 0 on 136;
-file . "src\data_ram.vhd" "4c582c038faba91948fe094df710435b6181cb14" "20261104182219.369":
-  entity data_ram at 1( 0) + 0 on 133;
-  architecture rtl of data_ram at 16( 379) + 0 on 134;
-file . "src\instruction_rom.vhd" "f1b272ef1646adb4ee25ac078d2eaa84e5251ada" "20261104182219.369":
-  entity instruction_rom at 1( 0) + 0 on 131;
-  architecture rtl of instruction_rom at 12( 245) + 0 on 132;
-file . "src\program_counter.vhd" "da8ab4499e96504d341c8d57531cced164b2cb31" "20261104182219.368":
-  entity program_counter at 1( 0) + 0 on 129;
-  architecture rtl of program_counter at 16( 398) + 0 on 130;
-file . "src\register_file.vhd" "830d637811025152289351216677db10294b4ce0" "20261104182219.368":
-  entity register_file at 2( 2) + 0 on 127;
-  architecture rtl of register_file at 28( 765) + 0 on 128;
-file . "src\alu.vhd" "007e869123835704adbfdfe719ac86998443712f" "20261104182219.367":
-  entity alu at 2( 2) + 0 on 125;
-  architecture rtl of alu at 17( 370) + 0 on 126;
-file . "src\and_gate.vhd" "55a641aa1fcafdbc84c02a1bfea1a3ceb591df89" "20261104182219.365":
-  entity and_gate at 2( 2) + 0 on 123;
-  architecture rtl of and_gate at 13( 187) + 0 on 124;
-file . "tb\tb_program_counter.vhd" "ea5a0e272370aef677176903155636ffbf621dda" "20261104182219.406":
-  entity tb_program_counter at 1( 0) + 0 on 145;
-  architecture sim of tb_program_counter at 8( 122) + 0 on 146;
-file . "tb\tb_instruction_rom.vhd" "9ccde9ab3c04181859025452fbbe9c82e976a9c6" "20261104182219.407":
-  entity tb_instruction_rom at 1( 0) + 0 on 147;
-  architecture sim of tb_instruction_rom at 8( 122) + 0 on 148;
-file . "tb\tb_data_ram.vhd" "d252c3a1a4d6db2997afe6b70ee7d59d3b1125d0" "20261104182219.408":
-  entity tb_data_ram at 1( 0) + 0 on 149;
-  architecture sim of tb_data_ram at 8( 108) + 0 on 150;
-file . "tb\tb_control_unit.vhd" "f09a2fb1437815b591e8c9c096fdc06d8f5d53a1" "20261104182219.408":
-  entity tb_control_unit at 1( 0) + 0 on 151;
-  architecture sim of tb_control_unit at 8( 116) + 0 on 152;
-file . "tb\tb_tr8_cpu.vhd" "b838ec6804e61e9588bb3807a8274558303f6fce" "20261104182219.409":
-  entity tb_tr8_cpu at 1( 0) + 0 on 153;
-  architecture sim of tb_tr8_cpu at 8( 106) + 0 on 154;
+file . "tb\tb_register_file.vhd" "ae42fa4e988293b6f0fffc54473012e8764a50e1" "20261104182747.568":
+  entity tb_register_file at 2( 2) + 0 on 245;
+  architecture sim of tb_register_file at 9( 120) + 0 on 246;
+file . "tb\tb_alu.vhd" "c2cc2a20acb5e4255141db179aa8ded48c31a9ed" "20261104182747.566":
+  entity tb_alu at 2( 2) + 0 on 243;
+  architecture sim of tb_alu at 9( 100) + 0 on 244;
+file . "tb\tb_and_gate.vhd" "14f9fcac99430e487b864357ce88adc3ec3adda1" "20261104182747.562":
+  entity tb_and_gate at 2( 2) + 0 on 241;
+  architecture sim of tb_and_gate at 9( 110) + 0 on 242;
+file . "src\tr8_cpu.vhd" "a842b0a9f910acbfc6c2ee580c04726e004b566f" "20261104182800.074":
+  entity tr8_cpu at 1( 0) + 0 on 273;
+  architecture rtl of tr8_cpu at 37( 1645) + 0 on 274;
+file . "src\control_unit.vhd" "8fc46009c2278699ea11a3c468af40ada99bd78b" "20261104182800.073":
+  entity control_unit at 1( 0) + 0 on 271;
+  architecture rtl of control_unit at 20( 603) + 0 on 272;
+file . "src\data_ram.vhd" "4c582c038faba91948fe094df710435b6181cb14" "20261104182800.072":
+  entity data_ram at 1( 0) + 0 on 269;
+  architecture rtl of data_ram at 16( 379) + 0 on 270;
+file . "src\instruction_rom.vhd" "90f1e7dfdbd4ab9a8ce12ae4dbc8abb5ea63c279" "20261104182800.071":
+  entity instruction_rom at 1( 0) + 0 on 267;
+  architecture rtl of instruction_rom at 16( 342) + 0 on 268;
+file . "src\program_counter.vhd" "da8ab4499e96504d341c8d57531cced164b2cb31" "20261104182800.071":
+  entity program_counter at 1( 0) + 0 on 265;
+  architecture rtl of program_counter at 16( 398) + 0 on 266;
+file . "src\register_file.vhd" "830d637811025152289351216677db10294b4ce0" "20261104182800.070":
+  entity register_file at 2( 2) + 0 on 263;
+  architecture rtl of register_file at 28( 765) + 0 on 264;
+file . "src\alu.vhd" "007e869123835704adbfdfe719ac86998443712f" "20261104182800.069":
+  entity alu at 2( 2) + 0 on 261;
+  architecture rtl of alu at 17( 370) + 0 on 262;
+file . "src\and_gate.vhd" "55a641aa1fcafdbc84c02a1bfea1a3ceb591df89" "20261104182800.068":
+  entity and_gate at 2( 2) + 0 on 259;
+  architecture rtl of and_gate at 13( 187) + 0 on 260;
+file . "tb\tb_program_counter.vhd" "ea5a0e272370aef677176903155636ffbf621dda" "20261104182747.570":
+  entity tb_program_counter at 1( 0) + 0 on 247;
+  architecture sim of tb_program_counter at 8( 122) + 0 on 248;
+file . "tb\tb_instruction_rom.vhd" "9ccde9ab3c04181859025452fbbe9c82e976a9c6" "20261104182747.571":
+  entity tb_instruction_rom at 1( 0) + 0 on 249;
+  architecture sim of tb_instruction_rom at 8( 122) + 0 on 250;
+file . "tb\tb_data_ram.vhd" "d252c3a1a4d6db2997afe6b70ee7d59d3b1125d0" "20261104182747.573":
+  entity tb_data_ram at 1( 0) + 0 on 251;
+  architecture sim of tb_data_ram at 8( 108) + 0 on 252;
+file . "tb\tb_control_unit.vhd" "510a052946abb559e2c55e7bf0b6a9143b08b07b" "20261104182747.576":
+  entity tb_control_unit at 1( 0) + 0 on 253;
+  architecture sim of tb_control_unit at 9( 143) + 0 on 254;
+file . "tb\tb_tr8_cpu.vhd" "95096133895a1acce25150db87d2ddedc7d4ce57" "20261104182811.856":
+  entity tb_tr8_cpu at 1( 0) + 0 on 277;
+  architecture sim of tb_tr8_cpu at 9( 133) + 0 on 278;
+file . "src\tr8_isa_pkg.vhd" "301b197b7bd5bd373a459eaf359fd57e3649b08f" "20261104182800.068":
+  package tr8_isa_pkg at 1( 0) + 0 on 257 body;
+  package body tr8_isa_pkg at 34( 1373) + 0 on 258;

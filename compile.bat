@@ -2,7 +2,7 @@
 setlocal
 cd /d "%~dp0"
 
-ghdl -a --std=08 src\and_gate.vhd src\alu.vhd src\register_file.vhd ^
+ghdl -a --std=08 src\tr8_isa_pkg.vhd src\and_gate.vhd src\alu.vhd src\register_file.vhd ^
   src\program_counter.vhd src\instruction_rom.vhd src\data_ram.vhd ^
   src\control_unit.vhd src\tr8_cpu.vhd
 if errorlevel 1 exit /b 1

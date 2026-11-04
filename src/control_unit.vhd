@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.TR8_ISA_PKG.ALL;
 
 entity CONTROL_UNIT is
     Port (
@@ -29,38 +30,38 @@ begin
         HALT      <= '0';
 
         case OPCODE is
-            when "0001" =>
+            when OP_LDI =>
                 REG_WE    <= '1';
                 WB_SEL    <= "01";
-            when "0010" =>
+            when OP_ADD =>
                 REG_WE    <= '1';
                 ALU_SEL   <= "000";
-            when "0011" =>
+            when OP_SUB =>
                 REG_WE    <= '1';
                 ALU_SEL   <= "001";
-            when "0100" =>
+            when OP_AND =>
                 REG_WE    <= '1';
                 ALU_SEL   <= "010";
-            when "0101" =>
+            when OP_OR =>
                 REG_WE    <= '1';
                 ALU_SEL   <= "011";
-            when "0110" =>
+            when OP_XOR =>
                 REG_WE    <= '1';
                 ALU_SEL   <= "100";
-            when "0111" =>
+            when OP_LOAD =>
                 REG_WE    <= '1';
                 WB_SEL    <= "10";
-            when "1000" =>
+            when OP_STORE =>
                 RAM_WE    <= '1';
-            when "1001" =>
+            when OP_JMP =>
                 JUMP      <= '1';
-            when "1010" =>
+            when OP_JZ =>
                 if ZERO_FLAG = '1' then
                     JUMP <= '1';
                 end if;
-            when "1011" =>
+            when OP_HALT =>
                 HALT <= '1';
-            when "1100" =>
+            when OP_NOT =>
                 REG_WE  <= '1';
                 ALU_SEL <= "101";
             when others =>

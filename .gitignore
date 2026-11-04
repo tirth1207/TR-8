@@ -1,0 +1,7 @@
+work-obj*.cf
+*.o
+*.exe
+*.dll
+*.tmp
+__pycache__/
+sim/*.ghw

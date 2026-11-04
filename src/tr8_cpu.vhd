@@ -1,7 +1,11 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.TR8_ISA_PKG.ALL;
 
 entity TR8_CPU is
+    generic (
+        PROGRAM : ROM_ARRAY := SAMPLE_PROGRAM
+    );
     Port (
         CLK                 : in  STD_LOGIC;
         RESET               : in  STD_LOGIC;
@@ -31,8 +35,8 @@ entity TR8_CPU is
 end TR8_CPU;
 
 architecture RTL of TR8_CPU is
-    signal pc : STD_LOGIC_VECTOR(7 downto 0);
-    signal instruction : STD_LOGIC_VECTOR(15 downto 0);
+    signal pc : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
+    signal instruction : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
     signal opcode : STD_LOGIC_VECTOR(3 downto 0);
     signal rd, rs : STD_LOGIC_VECTOR(1 downto 0);
     signal immediate : STD_LOGIC_VECTOR(7 downto 0);
@@ -66,6 +70,7 @@ begin
                   immediate, pc);
 
     U_ROM: entity work.INSTRUCTION_ROM
+        generic map (PROGRAM => PROGRAM)
         port map (pc, instruction);
 
     U_CONTROL: entity work.CONTROL_UNIT
