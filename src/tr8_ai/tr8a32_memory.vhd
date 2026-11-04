@@ -42,13 +42,15 @@ architecture RTL of TR8A32_MEMORY is
     signal instr_index : natural range 0 to PROGRAM_WORDS - 1 := 0;
     signal data_index : natural range 0 to DATA_WORDS - 1 := 0;
     signal data_in_range : STD_LOGIC;
+    signal instr_in_range : STD_LOGIC;
 begin
-    instr_index <= to_integer(unsigned(INSTR_ADDR(31 downto 2))) mod PROGRAM_WORDS;
-    data_index <= to_integer(unsigned(DATA_ADDR(31 downto 2))) mod DATA_WORDS;
+    instr_in_range <= '1' when unsigned(INSTR_ADDR(31 downto 2)) < to_unsigned(PROGRAM_WORDS, 30) else '0';
+    instr_index <= to_integer(unsigned(INSTR_ADDR(31 downto 2))) when instr_in_range = '1' else 0;
     data_in_range <= '1' when unsigned(DATA_ADDR(31 downto 10)) = 0 and
-                              DATA_ADDR(9 downto 8) = "00" else '0';
+                              to_integer(unsigned(DATA_ADDR(9 downto 2))) < DATA_WORDS else '0';
+    data_index <= to_integer(unsigned(DATA_ADDR(9 downto 2))) when data_in_range = '1' else 0;
 
-    INSTR_DATA <= PROGRAM(instr_index);
+    INSTR_DATA <= PROGRAM(instr_index) when instr_in_range = '1' else (others => '0');
     TIMER_VALID <= DATA_VALID when unsigned(DATA_ADDR(31 downto 4)) = x"0000040" else '0';
     TIMER_WRITE <= DATA_WRITE;
     NPU_VALID <= DATA_VALID when DATA_ADDR(31 downto 8) = x"000001" else '0';
