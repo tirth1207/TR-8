@@ -5,7 +5,7 @@ The current SoC milestone contains:
 - A single-master CPU instruction interface and 32-bit multi-cycle CPU.
 - A configurable instruction ROM and 32-bit data memory.
 - Synchronous data-memory writes and asynchronous read visibility for the current transaction.
-- Ready and error responses for data transactions.
+- Ready and error responses for data transactions; ordinary data RAM is mapped at `0x00000000`-`0x000000FF`.
 - A memory-mapped timer at `0x00000400`-`0x0000040F`.
 - A minimal CSR block with fixed `MTVEC = 0x00000100`, `MEPC`, and `MCAUSE`.
 - A memory-mapped fixed 2x2 INT8 NPU controller at `0x00000100`-`0x000001FF`.
