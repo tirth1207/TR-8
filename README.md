@@ -113,10 +113,14 @@ The next-generation design is specified separately in:
 - [`docs/verification_plan.md`](docs/verification_plan.md)
 - [`docs/fpga_resource_estimates.md`](docs/fpga_resource_estimates.md)
 
-These documents define a 32-bit multi-cycle CPU, a memory-mapped 2x2 INT8
-NPU, and a staged verification plan. The TR-8-A32N RTL foundation includes
-the CPU, memory subsystem, timer/CSR support, NPU controller, and CPU-driven
+These documents describe the TR-8-A32N architecture and staged verification
+plan. The current RTL foundation includes a 32-bit multi-cycle CPU, memory
+subsystem, timer/CSR support, a fixed 2x2 INT8 NPU controller, and CPU-driven
 NPU integration tests. The original 8-bit implementation remains unchanged.
+Run compile_ai_foundation.bat and test_ai_foundation.bat to compile and
+simulate the 32-bit foundation. The NPU is fixed-size; generalized tensor
+addressing, DMA, interrupt masking, FPGA synthesis, and timing closure remain
+future work.
 
 The NPU controller supports ReLU and signed 32-bit saturation through control
 register `0x00000100`: bit 2 enables ReLU and bit 3 enables saturation.
