@@ -39,11 +39,14 @@ Branch format:
 
 ```text
 31..26 25..21 20..16 15..0
-opcode   rs1    rs2   signed PC-relative halfword offset
+opcode   rs1    rs2   signed PC-relative word offset (scaled by 4 bytes)
 ```
 
-The initial implementation uses aligned 32-bit accesses. Misaligned accesses
-trap rather than being silently corrected.
+The initial implementation uses aligned 32-bit accesses. Misaligned LW and
+SW operations raise alignment exceptions (causes 4 and 6). Unmapped or
+peripheral-reported data errors raise load/store access faults (causes 5 and 7).
+Branch immediates are signed 16-bit word offsets and are shifted left by two
+before being added to the current PC.
 
 ## Initial instruction groups
 
@@ -60,8 +63,9 @@ following subset:
 - `ERET`
 
 The ALU foundation also implements `SLL`, `SRL`, `SRA`, `SLT`, and `SLTU`.
-Immediate logical operations, calls, CSR access, traps, interrupts, and
-additional branches remain planned work.
+Immediate logical operations, software CSR access, interrupt masking, and
+additional branches remain planned work. JAL, minimal trap entry, and ERET
+are implemented in the current RTL.
 
 The current CPU has a minimal interrupt path: an external `IRQ` sampled at
 `FETCH` saves the PC, records timer cause `1`, and jumps to `MTVEC`. `ERET`
@@ -78,6 +82,8 @@ into the base CPU decoder.
 stack pointer. Trap entry saves the return PC and cause in CSRs and transfers
 control to a configured trap vector. `ERET` restores execution.
 
-The first CPU milestone may implement a minimal trap subset before external
-interrupts. Interrupt support is not considered complete until timer and NPU
-completion sources are independently verified.
+The current RTL implements a minimal trap subset and accepts the combined
+SoC timer/NPU interrupt input at instruction-fetch boundaries. Interrupt
+priority, masking, nested traps, and independently vectored sources are not
+implemented; software must clear a peripheral pending condition before
+returning with ERET.
