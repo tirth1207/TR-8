@@ -102,6 +102,10 @@ synthesizable constant and there is no external program-loading interface,
 interrupt mechanism, or pipeline. FPGA block-RAM inference is not claimed;
 see [`docs/fpga_implementation.md`](docs/fpga_implementation.md).
 
+## Research and project report
+
+A detailed, publication-oriented technical report describing the AI-assisted design methodology, 8-bit CPU architecture, instruction set, verification evidence, performance model, limitations, and future work is available in [`docs/TR8_AI_ASSISTED_CPU_RESEARCH_PAPER.md`](docs/TR8_AI_ASSISTED_CPU_RESEARCH_PAPER.md). It explicitly distinguishes simulated behavior from unmeasured FPGA performance.
+
 ## TR-8-A32N roadmap
 
 The next-generation design is specified separately in:
