@@ -17,7 +17,7 @@ ghdl -a --std=08 tb\tr8_ai\foundation\tr8a32_alu_tb.vhd ^
 if errorlevel 1 exit /b 1
 ghdl -a --std=08 tb\tr8_ai\cpu\tr8a32_cpu_tb.vhd
 if errorlevel 1 exit /b 1
-ghdl -a --std=08 tb\tr8_ai\cpu\tr8a32_interrupt_tb.vhd
+ghdl -a --std=08 tb\tr8_ai\cpu\tr8a32_interrupt_tb.vhd tb\tr8_ai\cpu\tr8a32_exception_tb.vhd
 if errorlevel 1 exit /b 1
 ghdl -a --std=08 src\tr8_ai\npu_int8_mac.vhd src\tr8_ai\npu_array_2x2.vhd
 if errorlevel 1 exit /b 1
