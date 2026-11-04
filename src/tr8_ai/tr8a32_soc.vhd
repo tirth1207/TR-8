@@ -42,6 +42,7 @@ begin
             DATA_WDATA => data_wdata,
             DATA_RDATA => data_rdata,
             DATA_READY => data_ready,
+            DATA_ERROR => data_error,
             IRQ => timer_irq or npu_irq,
             HALTED => HALTED,
             DEBUG_PC => DEBUG_PC,
