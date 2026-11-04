@@ -24,8 +24,16 @@ Base address: `NPU_BASE`
 | `0x30` | `IRQ_ENABLE` | Completion interrupt enable |
 | `0x34` | `PERF_CYCLES` | Operation cycle count |
 
-Register widths and writable bits will be specified in the RTL interface
-document before implementation.
+The current fixed-size controller implements the control, status, error, IRQ
+enable, and performance-cycle registers. Base-address, dimension, stride,
+quantization, and SRAM registers remain reserved until generalized tensor
+addressing is implemented. The current RTL places `DIMENSIONS` at `0x20` to
+preserve the existing `C11` output register at `0x1C`.
+`QUANT_SHIFT` is implemented at `0x2C` as a five-bit arithmetic right shift
+applied before saturation and ReLU.
+The current supported dimension value is `0x00020202` (`M=2`, `K=2`, `N=2`);
+other values produce an explicit start error until a generalized datapath is
+implemented.
 
 ## Operation
 

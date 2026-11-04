@@ -1,27 +1,36 @@
 v 4
-file . "src\tr8_ai\tr8a32_csr.vhd" "d66bcd1816076aff10f94baa52373c6d001723b5" "20261104184903.113":
-  entity tr8a32_csr at 1( 0) + 0 on 706;
-  architecture rtl of tr8a32_csr at 20( 492) + 0 on 707;
-file . "tb\tr8_ai\peripherals\tr8a32_timer_tb.vhd" "a8da07b30261330f52231f069ba2aefbb1631669" "20261104184903.372":
-  entity tr8a32_timer_tb at 1( 0) + 0 on 726;
-  architecture sim of tr8a32_timer_tb at 10( 173) + 0 on 727;
-file . "src\tr8_ai\tr8a32_timer.vhd" "f6769cc9ca8dab62cbfedd843df4bb24dff7af4f" "20261104184903.075":
-  entity tr8a32_timer at 1( 0) + 0 on 704;
-  architecture rtl of tr8a32_timer at 21( 519) + 0 on 705;
-file . "tb\tr8_ai\soc\tr8a32_soc_tb.vhd" "c64418640342ea9c7f047b26be78d66932b5736a" "20261104184903.332":
-  entity tr8a32_soc_tb at 1( 0) + 0 on 724;
-  architecture sim of tr8a32_soc_tb at 8( 112) + 0 on 725;
-file . "tb\tr8_ai\memory\tr8a32_memory_tb.vhd" "d1933445dd607ccef41e80bf8d59ae58b8e263c8" "20261104184903.331":
-  entity tr8a32_memory_tb at 1( 0) + 0 on 722;
-  architecture sim of tr8a32_memory_tb at 10( 175) + 0 on 723;
-file . "tb\tr8_ai\foundation\tr8a32_register_file_tb.vhd" "667708078906567fed90ff9bc8a4b40617a45150" "20261104184903.222":
-  entity tr8a32_register_file_tb at 1( 0) + 0 on 716;
-  architecture sim of tr8a32_register_file_tb at 9( 162) + 0 on 717;
-file . "tb\tr8_ai\foundation\tr8a32_alu_tb.vhd" "83ada24dd56ea6fd49d9795673bc2694a09302c1" "20261104184903.221":
-  entity tr8a32_alu_tb at 1( 0) + 0 on 714;
-  architecture sim of tr8a32_alu_tb at 9( 142) + 0 on 715;
-file . "src\tr8_ai\tr8a32_isa_pkg.vhd" "2f73dda1e9656b0e094c59f94818d48538091bc8" "20261104184903.002":
-  package tr8a32_isa_pkg at 1( 0) + 0 on 699;
+file . "src\tr8_ai\npu_controller.vhd" "5b67a9821c8324e8ac1f0d7d4cddd75614546ee0" "20261104190723.941":
+  entity npu_controller at 1( 0) + 0 on 1761;
+  architecture rtl of npu_controller at 20( 522) + 0 on 1762;
+file . "tb\tr8_ai\npu\npu_array_2x2_tb.vhd" "d90c9ec4e37a26a63e4e22af8f16148737989a17" "20261104190724.117":
+  entity npu_array_2x2_tb at 1( 0) + 0 on 1777;
+  architecture sim of npu_array_2x2_tb at 8( 118) + 0 on 1778;
+file . "tb\tr8_ai\npu\npu_int8_mac_tb.vhd" "9a14fe99f7a76a74a40fb048ea666b0f268d3775" "20261104190724.115":
+  entity npu_int8_mac_tb at 1( 0) + 0 on 1775;
+  architecture sim of npu_int8_mac_tb at 8( 116) + 0 on 1776;
+file . "src\tr8_ai\tr8a32_csr.vhd" "d66bcd1816076aff10f94baa52373c6d001723b5" "20261104190723.728":
+  entity tr8a32_csr at 1( 0) + 0 on 1745;
+  architecture rtl of tr8a32_csr at 20( 492) + 0 on 1746;
+file . "tb\tr8_ai\peripherals\tr8a32_timer_tb.vhd" "a8da07b30261330f52231f069ba2aefbb1631669" "20261104190724.048":
+  entity tr8a32_timer_tb at 1( 0) + 0 on 1771;
+  architecture sim of tr8a32_timer_tb at 10( 173) + 0 on 1772;
+file . "src\tr8_ai\tr8a32_timer.vhd" "f6769cc9ca8dab62cbfedd843df4bb24dff7af4f" "20261104190723.693":
+  entity tr8a32_timer at 1( 0) + 0 on 1743;
+  architecture rtl of tr8a32_timer at 21( 519) + 0 on 1744;
+file . "tb\tr8_ai\soc\tr8a32_soc_tb.vhd" "696254b858309fdb828a3f86d50cd884dcc01625" "20261104190724.016":
+  entity tr8a32_soc_tb at 1( 0) + 0 on 1769;
+  architecture sim of tr8a32_soc_tb at 8( 112) + 0 on 1770;
+file . "tb\tr8_ai\memory\tr8a32_memory_tb.vhd" "06aa872988d7284bdf91bcc381a9f16647c539c9" "20261104190724.014":
+  entity tr8a32_memory_tb at 1( 0) + 0 on 1767;
+  architecture sim of tr8a32_memory_tb at 10( 175) + 0 on 1768;
+file . "tb\tr8_ai\foundation\tr8a32_register_file_tb.vhd" "667708078906567fed90ff9bc8a4b40617a45150" "20261104190723.795":
+  entity tr8a32_register_file_tb at 1( 0) + 0 on 1751;
+  architecture sim of tr8a32_register_file_tb at 9( 162) + 0 on 1752;
+file . "tb\tr8_ai\foundation\tr8a32_alu_tb.vhd" "83ada24dd56ea6fd49d9795673bc2694a09302c1" "20261104190723.794":
+  entity tr8a32_alu_tb at 1( 0) + 0 on 1749;
+  architecture sim of tr8a32_alu_tb at 9( 142) + 0 on 1750;
+file . "src\tr8_ai\tr8a32_isa_pkg.vhd" "2f73dda1e9656b0e094c59f94818d48538091bc8" "20261104190723.622":
+  package tr8a32_isa_pkg at 1( 0) + 0 on 1738;
 file . "src\tr8_isa_pkg.vhd" "301b197b7bd5bd373a459eaf359fd57e3649b08f" "20261104184250.299":
   package tr8_isa_pkg at 1( 0) + 0 on 331 body;
   package body tr8_isa_pkg at 34( 1373) + 0 on 332;
@@ -73,27 +82,39 @@ file . "tb\tb_alu.vhd" "c2cc2a20acb5e4255141db179aa8ded48c31a9ed" "2026110418425
 file . "tb\tb_register_file.vhd" "ae42fa4e988293b6f0fffc54473012e8764a50e1" "20261104184250.383":
   entity tb_register_file at 2( 2) + 0 on 353;
   architecture sim of tb_register_file at 9( 120) + 0 on 354;
-file . "src\tr8_ai\tr8a32_alu.vhd" "c799a8d8ac0dfce7affc5b5a4160adb630e769f5" "20261104184903.038":
-  entity tr8a32_alu at 1( 0) + 0 on 700;
-  architecture rtl of tr8a32_alu at 19( 454) + 0 on 701;
-file . "src\tr8_ai\tr8a32_register_file.vhd" "1c1d33ebea86006fb033958dc78c1423153f82ad" "20261104184903.039":
-  entity tr8a32_register_file at 1( 0) + 0 on 702;
-  architecture rtl of tr8a32_register_file at 20( 460) + 0 on 703;
-file . "src\tr8_ai\tr8a32_cpu.vhd" "27ec3fe8066e710e858064f5b700da4be0006e1a" "20261104184903.149":
-  entity tr8a32_cpu at 1( 0) + 0 on 708;
-  architecture rtl of tr8a32_cpu at 27( 783) + 0 on 709;
-file . "tb\tr8_ai\cpu\tr8a32_cpu_tb.vhd" "9651010911ec672ffe35c54f12658b18f2f4c397" "20261104184903.256":
-  entity tr8a32_cpu_tb at 1( 0) + 0 on 718;
-  architecture sim of tr8a32_cpu_tb at 10( 169) + 0 on 719;
-file . "src\tr8_ai\tr8a32_memory.vhd" "a30a50a9cfffd88b143ac9e0a44f78a005e218a6" "20261104184903.182":
-  entity tr8a32_memory at 1( 0) + 0 on 710;
-  architecture rtl of tr8a32_memory at 32( 937) + 0 on 711;
-file . "src\tr8_ai\tr8a32_soc.vhd" "a85b209fbfbc748262867184b3cb3f68f35b1cd8" "20261104184903.184":
-  entity tr8a32_soc at 1( 0) + 0 on 712;
-  architecture rtl of tr8a32_soc at 19( 428) + 0 on 713;
-file . "tb\tr8_ai\peripherals\tr8a32_csr_tb.vhd" "3ce7614dec995df10cdcd8728d08312baa44902d" "20261104184903.412":
-  entity tr8a32_csr_tb at 1( 0) + 0 on 728;
-  architecture sim of tr8a32_csr_tb at 9( 142) + 0 on 729;
-file . "tb\tr8_ai\cpu\tr8a32_interrupt_tb.vhd" "25f0ecb5fb41d2554f5e9ff64d90aec247c219e5" "20261104184903.289":
-  entity tr8a32_interrupt_tb at 1( 0) + 0 on 720;
-  architecture sim of tr8a32_interrupt_tb at 10( 181) + 0 on 721;
+file . "src\tr8_ai\tr8a32_alu.vhd" "c799a8d8ac0dfce7affc5b5a4160adb630e769f5" "20261104190723.655":
+  entity tr8a32_alu at 1( 0) + 0 on 1739;
+  architecture rtl of tr8a32_alu at 19( 454) + 0 on 1740;
+file . "src\tr8_ai\tr8a32_register_file.vhd" "1c1d33ebea86006fb033958dc78c1423153f82ad" "20261104190723.656":
+  entity tr8a32_register_file at 1( 0) + 0 on 1741;
+  architecture rtl of tr8a32_register_file at 20( 460) + 0 on 1742;
+file . "src\tr8_ai\tr8a32_cpu.vhd" "77e44779dd7857f226df188803d7a612449b33d9" "20261104190723.762":
+  entity tr8a32_cpu at 1( 0) + 0 on 1747;
+  architecture rtl of tr8a32_cpu at 27( 783) + 0 on 1748;
+file . "tb\tr8_ai\cpu\tr8a32_cpu_tb.vhd" "9651010911ec672ffe35c54f12658b18f2f4c397" "20261104190723.833":
+  entity tr8a32_cpu_tb at 1( 0) + 0 on 1753;
+  architecture sim of tr8a32_cpu_tb at 10( 169) + 0 on 1754;
+file . "src\tr8_ai\tr8a32_memory.vhd" "97d1dea9451ecb5de0b59de7d9cdffa068b2dcd4" "20261104190723.978":
+  entity tr8a32_memory at 1( 0) + 0 on 1763;
+  architecture rtl of tr8a32_memory at 37( 1124) + 0 on 1764;
+file . "src\tr8_ai\tr8a32_soc.vhd" "f05fe8b1f3a9f6d0a7a941e95a10f965b04f6368" "20261104190723.979":
+  entity tr8a32_soc at 1( 0) + 0 on 1765;
+  architecture rtl of tr8a32_soc at 21( 505) + 0 on 1766;
+file . "tb\tr8_ai\peripherals\tr8a32_csr_tb.vhd" "3ce7614dec995df10cdcd8728d08312baa44902d" "20261104190724.079":
+  entity tr8a32_csr_tb at 1( 0) + 0 on 1773;
+  architecture sim of tr8a32_csr_tb at 9( 142) + 0 on 1774;
+file . "tb\tr8_ai\cpu\tr8a32_interrupt_tb.vhd" "25f0ecb5fb41d2554f5e9ff64d90aec247c219e5" "20261104190723.868":
+  entity tr8a32_interrupt_tb at 1( 0) + 0 on 1755;
+  architecture sim of tr8a32_interrupt_tb at 10( 181) + 0 on 1756;
+file . "src\tr8_ai\npu_int8_mac.vhd" "35683144ea6589884bece8951ed0f9b899a07f58" "20261104190723.905":
+  entity npu_int8_mac at 1( 0) + 0 on 1757;
+  architecture rtl of npu_int8_mac at 17( 448) + 0 on 1758;
+file . "src\tr8_ai\npu_array_2x2.vhd" "aedc948f136941e4efe3de81170e62828e326898" "20261104190723.906":
+  entity npu_array_2x2 at 1( 0) + 0 on 1759;
+  architecture rtl of npu_array_2x2 at 33( 1260) + 0 on 1760;
+file . "tb\tr8_ai\npu\npu_controller_tb.vhd" "249b995968e8d01d99b2fe833f4d73f1718b447a" "20261104190724.157":
+  entity npu_controller_tb at 1( 0) + 0 on 1779;
+  architecture sim of npu_controller_tb at 9( 147) + 0 on 1780;
+file . "tb\tr8_ai\soc\tr8a32_npu_integration_tb.vhd" "977d68c71c652cebc26d2885b2dc6a323e27abd8" "20261104190724.195":
+  entity tr8a32_npu_integration_tb at 1( 0) + 0 on 1781;
+  architecture sim of tr8a32_npu_integration_tb at 10( 193) + 0 on 1782;

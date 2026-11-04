@@ -10,10 +10,11 @@ architecture SIM of TR8A32_SOC_TB is
     signal reset, halted : STD_LOGIC := '0';
     signal pc : STD_LOGIC_VECTOR(31 downto 0);
     signal mepc, mcause : STD_LOGIC_VECTOR(31 downto 0);
+    signal npu_c00, npu_status : STD_LOGIC_VECTOR(31 downto 0);
 begin
     clk <= not clk after 5 ns;
     dut: entity work.TR8A32_SOC
-        port map (clk, reset, halted, pc, mepc, mcause);
+        port map (clk, reset, halted, pc, mepc, mcause, npu_c00, npu_status);
 
     process
     begin

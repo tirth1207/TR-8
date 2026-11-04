@@ -40,6 +40,22 @@ ghdl -e --std=08 TR8A32_CSR_TB
 if errorlevel 1 exit /b 1
 ghdl -r --std=08 TR8A32_CSR_TB --wave=sim\tr8a32_csr.ghw
 if errorlevel 1 exit /b 1
+ghdl -e --std=08 NPU_INT8_MAC_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 NPU_INT8_MAC_TB --wave=sim\npu_int8_mac.ghw
+if errorlevel 1 exit /b 1
+ghdl -e --std=08 NPU_ARRAY_2X2_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 NPU_ARRAY_2X2_TB --wave=sim\npu_array_2x2.ghw
+if errorlevel 1 exit /b 1
+ghdl -e --std=08 NPU_CONTROLLER_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 NPU_CONTROLLER_TB --wave=sim\npu_controller.ghw
+if errorlevel 1 exit /b 1
+ghdl -e --std=08 TR8A32_NPU_INTEGRATION_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 TR8A32_NPU_INTEGRATION_TB --wave=sim\tr8a32_npu_integration.ghw
+if errorlevel 1 exit /b 1
 
 echo TR-8-A32 foundation tests passed.
 exit /b 0

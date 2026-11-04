@@ -25,7 +25,12 @@ entity TR8A32_MEMORY is
         TIMER_READY : in  STD_LOGIC;
         TIMER_ERROR : in  STD_LOGIC;
         TIMER_VALID : out STD_LOGIC;
-        TIMER_WRITE : out STD_LOGIC
+        TIMER_WRITE : out STD_LOGIC;
+        NPU_RDATA   : in  WORD32;
+        NPU_READY   : in  STD_LOGIC;
+        NPU_ERROR   : in  STD_LOGIC;
+        NPU_VALID   : out STD_LOGIC;
+        NPU_WRITE   : out STD_LOGIC
     );
 end TR8A32_MEMORY;
 
@@ -40,16 +45,22 @@ architecture RTL of TR8A32_MEMORY is
 begin
     instr_index <= to_integer(unsigned(INSTR_ADDR(31 downto 2))) mod PROGRAM_WORDS;
     data_index <= to_integer(unsigned(DATA_ADDR(31 downto 2))) mod DATA_WORDS;
-    data_in_range <= '1' when unsigned(DATA_ADDR(31 downto 10)) = 0 else '0';
+    data_in_range <= '1' when unsigned(DATA_ADDR(31 downto 10)) = 0 and
+                              DATA_ADDR(9 downto 8) = "00" else '0';
 
     INSTR_DATA <= PROGRAM(instr_index);
     TIMER_VALID <= DATA_VALID when unsigned(DATA_ADDR(31 downto 4)) = x"0000040" else '0';
     TIMER_WRITE <= DATA_WRITE;
-    DATA_RDATA <= TIMER_RDATA when TIMER_VALID = '1' else
+    NPU_VALID <= DATA_VALID when DATA_ADDR(31 downto 8) = x"000001" else '0';
+    NPU_WRITE <= DATA_WRITE;
+    DATA_RDATA <= NPU_RDATA when NPU_VALID = '1' else
+                  TIMER_RDATA when TIMER_VALID = '1' else
                   data_memory(data_index) when data_in_range = '1' else
                   (others => '0');
-    DATA_READY <= TIMER_READY when TIMER_VALID = '1' else DATA_VALID;
-    DATA_ERROR <= TIMER_ERROR when TIMER_VALID = '1' else
+    DATA_READY <= NPU_READY when NPU_VALID = '1' else
+                  TIMER_READY when TIMER_VALID = '1' else DATA_VALID;
+    DATA_ERROR <= NPU_ERROR when NPU_VALID = '1' else
+                  TIMER_ERROR when TIMER_VALID = '1' else
                   DATA_VALID and not data_in_range;
 
     process(CLK)

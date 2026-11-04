@@ -12,7 +12,9 @@ entity TR8A32_SOC is
         HALTED  : out STD_LOGIC;
         DEBUG_PC : out WORD32;
         DEBUG_MEPC : out WORD32;
-        DEBUG_MCAUSE : out WORD32
+        DEBUG_MCAUSE : out WORD32;
+        DEBUG_NPU_C00 : out WORD32;
+        DEBUG_NPU_STATUS : out WORD32
     );
 end TR8A32_SOC;
 
@@ -24,6 +26,9 @@ architecture RTL of TR8A32_SOC is
     signal timer_rdata : WORD32;
     signal timer_ready, timer_error, timer_valid, timer_write : STD_LOGIC;
     signal timer_irq : STD_LOGIC;
+    signal npu_rdata : WORD32;
+    signal npu_ready, npu_error, npu_valid, npu_write : STD_LOGIC;
+    signal npu_irq : STD_LOGIC;
 begin
     U_CPU: entity work.TR8A32_CPU
         port map (
@@ -37,7 +42,7 @@ begin
             DATA_WDATA => data_wdata,
             DATA_RDATA => data_rdata,
             DATA_READY => data_ready,
-            IRQ => timer_irq,
+            IRQ => timer_irq or npu_irq,
             HALTED => HALTED,
             DEBUG_PC => DEBUG_PC,
             DEBUG_STATE => debug_state,
@@ -63,7 +68,12 @@ begin
             TIMER_READY => timer_ready,
             TIMER_ERROR => timer_error,
             TIMER_VALID => timer_valid,
-            TIMER_WRITE => timer_write
+            TIMER_WRITE => timer_write,
+            NPU_RDATA => npu_rdata,
+            NPU_READY => npu_ready,
+            NPU_ERROR => npu_error,
+            NPU_VALID => npu_valid,
+            NPU_WRITE => npu_write
         );
 
     U_TIMER: entity work.TR8A32_TIMER
@@ -79,4 +89,23 @@ begin
             ERROR => timer_error,
             IRQ => timer_irq
         );
+
+    U_NPU: entity work.NPU_CONTROLLER
+        port map (
+            CLK => CLK,
+            RESET => RESET,
+            VALID => npu_valid,
+            WRITE => npu_write,
+            ADDR => data_addr,
+            WDATA => data_wdata,
+            RDATA => npu_rdata,
+            READY => npu_ready,
+            ERROR => npu_error,
+            IRQ => npu_irq
+        );
+
+    DEBUG_NPU_C00 <= npu_rdata when data_addr(7 downto 0) = x"10" else
+                     (others => '0');
+    DEBUG_NPU_STATUS <= npu_rdata when data_addr(7 downto 0) = x"04" else
+                        (others => '0');
 end RTL;

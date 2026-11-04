@@ -114,5 +114,11 @@ The next-generation design is specified separately in:
 - [`docs/fpga_resource_estimates.md`](docs/fpga_resource_estimates.md)
 
 These documents define a 32-bit multi-cycle CPU, a memory-mapped 2x2 INT8
-NPU, and a staged verification plan. No TR-8-A32N RTL has been implemented
-yet, and the existing 8-bit implementation remains unchanged.
+NPU, and a staged verification plan. The TR-8-A32N RTL foundation includes
+the CPU, memory subsystem, timer/CSR support, NPU controller, and CPU-driven
+NPU integration tests. The original 8-bit implementation remains unchanged.
+
+The NPU controller supports ReLU and signed 32-bit saturation through control
+register `0x00000100`: bit 2 enables ReLU and bit 3 enables saturation.
+The executable Python reference model is
+[`tools/tr8a32_npu_reference.py`](tools/tr8a32_npu_reference.py).

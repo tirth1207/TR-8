@@ -43,12 +43,13 @@ architecture RTL of TR8A32_CPU is
     signal branch_target : WORD32 := (others => '0');
     signal link_address : WORD32 := (others => '0');
     signal halted_state : STD_LOGIC := '0';
+    signal trap_active : STD_LOGIC := '0';
     signal trap_taken, eret : STD_LOGIC;
     signal mtvec, mepc, mcause : WORD32;
     signal register_reset : STD_LOGIC;
 begin
     register_reset <= RESET;
-    trap_taken <= '1' when (IRQ = '1' and state = FETCH) or
+    trap_taken <= '1' when (IRQ = '1' and trap_active = '0' and state = FETCH) or
                            (state = EXECUTE and
                             instruction(31 downto 26) = OP_ECALL) else '0';
     eret <= '1' when state = EXECUTE and
@@ -133,16 +134,19 @@ begin
                 instruction <= (others => '0');
                 state <= FETCH;
                 halted_state <= '0';
+                trap_active <= '0';
                 memory_read_data <= (others => '0');
             elsif halted_state = '0' then
-                if IRQ = '1' and state = FETCH then
+                if IRQ = '1' and trap_active = '0' and state = FETCH then
                     trap_taken <= '1';
                     pc <= mtvec;
+                    trap_active <= '1';
                     state <= FETCH;
                 elsif state = EXECUTE and
                       instruction(31 downto 26) = OP_ERET then
                     eret <= '1';
                     pc <= mepc;
+                    trap_active <= '0';
                     state <= FETCH;
                 elsif state = EXECUTE and
                       instruction(31 downto 26) = OP_ECALL then

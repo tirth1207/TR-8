@@ -19,4 +19,26 @@ program image and decodes a timer/debug peripheral at `0x00000400`. The timer
 has a pending IRQ output, but CPU trap and interrupt delivery are intentionally
 deferred. A minimal CSR/trap block now captures `MEPC` and `MCAUSE`, vectors
 to `MTVEC = 0x00000100`, and supports `ERET`; the timer IRQ is wired into the
-SoC CPU. The legacy TR-8 hierarchy remains unchanged.
+SoC CPU. The first NPU datapath now includes a signed INT8 MAC and fixed 2x2
+matrix engine with bias addition and busy/done/error status. The legacy TR-8
+hierarchy remains unchanged.
+The NPU foundation now has a memory-mapped controller with local 2x2 input,
+weight, bias, and output registers. It exposes start, busy, done, and error
+status and is verified independently. The controller is now routed through
+the SoC decoder, and a CPU-driven integration test verifies register
+programming, start/poll behavior, and result readback.
+Activation controls now support ReLU and widened signed 32-bit saturation.
+Direct array tests cover negative-result clamping and positive overflow
+clamping while the existing CPU-NPU path remains compatible.
+NPU completion now generates a one-cycle interrupt pulse, combined with the
+timer IRQ at the CPU. The CPU prevents immediate retriggering while executing
+an interrupt handler, and the integration test clears NPU DONE before ERET.
+The controller programming model now includes an error-code register, a
+completion IRQ enable bit, and a busy-cycle performance counter, with focused
+verification coverage.
+The NPU controller operand registers now back indexed local tensor storage
+for inputs, weights, and biases. The legacy register addresses are preserved;
+parameterized SRAM depth and generalized tensor dimensions remain future work.
+The controller now exposes explicit M/K/N dimensions and rejects unsupported
+configurations with error code `3`, rather than silently accepting dimensions
+the fixed 2x2 datapath cannot execute.

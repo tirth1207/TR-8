@@ -14,6 +14,8 @@ architecture SIM of TR8A32_MEMORY_TB is
         (others => '0');
     signal timer_rdata : WORD32 := (others => '0');
     signal timer_ready, timer_error, timer_valid, timer_write : STD_LOGIC := '0';
+    signal npu_rdata : WORD32 := (others => '0');
+    signal npu_ready, npu_error, npu_valid, npu_write : STD_LOGIC := '0';
 begin
     clk <= not clk after 5 ns;
     dut: entity work.TR8A32_MEMORY
@@ -24,7 +26,9 @@ begin
             DATA_RDATA => data_rdata, DATA_READY => ready, DATA_ERROR => error,
             TIMER_RDATA => timer_rdata, TIMER_READY => timer_ready,
             TIMER_ERROR => timer_error, TIMER_VALID => timer_valid,
-            TIMER_WRITE => timer_write
+            TIMER_WRITE => timer_write, NPU_RDATA => npu_rdata,
+            NPU_READY => npu_ready, NPU_ERROR => npu_error,
+            NPU_VALID => npu_valid, NPU_WRITE => npu_write
         );
 
     process
