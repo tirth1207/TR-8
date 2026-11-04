@@ -23,6 +23,14 @@ ghdl -e --std=08 TR8A32_INTERRUPT_TB
 if errorlevel 1 exit /b 1
 ghdl -r --std=08 TR8A32_INTERRUPT_TB --wave=sim\tr8a32_interrupt.ghw
 if errorlevel 1 exit /b 1
+ghdl -e --std=08 TR8A32_EXCEPTION_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 TR8A32_EXCEPTION_TB --wave=sim\tr8a32_exception.ghw
+if errorlevel 1 exit /b 1
+ghdl -e --std=08 TR8A32_MISALIGNED_TB
+if errorlevel 1 exit /b 1
+ghdl -r --std=08 TR8A32_MISALIGNED_TB --wave=sim\tr8a32_misaligned.ghw
+if errorlevel 1 exit /b 1
 ghdl -e --std=08 TR8A32_MEMORY_TB
 if errorlevel 1 exit /b 1
 ghdl -r --std=08 TR8A32_MEMORY_TB --wave=sim\tr8a32_memory.ghw

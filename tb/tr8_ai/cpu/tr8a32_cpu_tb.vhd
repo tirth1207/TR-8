@@ -48,7 +48,7 @@ begin
             CLK => clk, RESET => reset, INSTR_ADDR => instr_addr,
             INSTR_DATA => instr_data, DATA_VALID => valid, DATA_WRITE => write,
             DATA_ADDR => data_addr, DATA_WDATA => data_wdata,
-            DATA_RDATA => data_rdata, DATA_READY => '1', IRQ => irq,
+            DATA_RDATA => data_rdata, DATA_READY => '1', DATA_ERROR => '0', IRQ => irq,
             HALTED => halted, DEBUG_PC => debug_pc, DEBUG_STATE => state,
             DEBUG_MEPC => mepc, DEBUG_MCAUSE => mcause
         );
