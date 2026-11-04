@@ -15,6 +15,7 @@ entity TR8A32_CPU is
         DATA_WDATA   : out WORD32;
         DATA_RDATA   : in  WORD32;
         DATA_READY   : in  STD_LOGIC;
+        DATA_ERROR   : in  STD_LOGIC;
         IRQ          : in  STD_LOGIC;
         HALTED       : out STD_LOGIC;
         DEBUG_PC     : out WORD32;
@@ -45,53 +46,59 @@ architecture RTL of TR8A32_CPU is
     signal halted_state : STD_LOGIC := '0';
     signal trap_active : STD_LOGIC := '0';
     signal trap_taken, eret : STD_LOGIC;
+    signal trap_cause : WORD32;
     signal mtvec, mepc, mcause : WORD32;
-    signal register_reset : STD_LOGIC;
 begin
-    register_reset <= RESET;
-    trap_taken <= '1' when (IRQ = '1' and trap_active = '0' and state = FETCH) or
-                           (state = EXECUTE and
-                            instruction(31 downto 26) = OP_ECALL) else '0';
+    -- All trap/return event signals have exactly one driver.  The CSR samples
+    -- these event strobes on the same clock edge as the CPU changes control flow.
+    trap_taken <= '1' when
+        (IRQ = '1' and trap_active = '0' and state = FETCH) or
+        (state = EXECUTE and instruction(31 downto 26) = OP_ECALL) or
+        (state = EXECUTE and
+         (instruction(31 downto 26) = OP_LW or instruction(31 downto 26) = OP_SW) and
+         alu_result(1 downto 0) /= "00") or
+        (state = MEMORY and DATA_READY = '1' and DATA_ERROR = '1')
+        else '0';
+
     eret <= '1' when state = EXECUTE and
                      instruction(31 downto 26) = OP_ERET else '0';
 
+    trap_cause <= x"00000001" when IRQ = '1' and state = FETCH else
+                  x"0000000B" when state = EXECUTE and
+                                   instruction(31 downto 26) = OP_ECALL else
+                  x"00000004" when state = EXECUTE and
+                                   instruction(31 downto 26) = OP_LW and
+                                   alu_result(1 downto 0) /= "00" else
+                  x"00000006" when state = EXECUTE and
+                                   instruction(31 downto 26) = OP_SW and
+                                   alu_result(1 downto 0) /= "00" else
+                  x"00000005" when state = MEMORY and memory_load = '1' else
+                  x"00000007" when state = MEMORY and memory_store = '1' else
+                  (others => '0');
+
     U_REGISTERS: entity work.TR8A32_REGISTER_FILE
         port map (
-            CLK => CLK,
-            RESET => register_reset,
-            WE => reg_we,
-            WADDR => reg_waddr,
-            WDATA => reg_wdata,
+            CLK => CLK, RESET => RESET, WE => reg_we,
+            WADDR => reg_waddr, WDATA => reg_wdata,
             RADDR1 => instruction(20 downto 16),
             RADDR2 => second_read_address,
-            RDATA1 => rs1_value,
-            RDATA2 => rs2_value
+            RDATA1 => rs1_value, RDATA2 => rs2_value
         );
 
     U_ALU: entity work.TR8A32_ALU
         port map (
-            A => alu_a,
-            B => alu_b,
-            OP => alu_op,
-            RESULT => alu_result,
-            ZERO => alu_zero,
-            NEGATIVE => alu_negative,
-            CARRY => alu_carry,
+            A => alu_a, B => alu_b, OP => alu_op,
+            RESULT => alu_result, ZERO => alu_zero,
+            NEGATIVE => alu_negative, CARRY => alu_carry,
             OVERFLOW => alu_overflow
         );
 
     U_CSR: entity work.TR8A32_CSR
         port map (
-            CLK => CLK,
-            RESET => RESET,
-            IRQ => IRQ,
-            TRAP_TAKEN => trap_taken,
-            TRAP_PC => pc,
-            TRAP_CAUSE => x"00000001",
-            ERET => eret,
-            MTVEC => mtvec,
-            MEPC => mepc,
-            MCAUSE => mcause
+            CLK => CLK, RESET => RESET,
+            IRQ => '0', TRAP_TAKEN => trap_taken,
+            TRAP_PC => pc, TRAP_CAUSE => trap_cause, ERET => eret,
+            MTVEC => mtvec, MEPC => mepc, MCAUSE => mcause
         );
 
     process(all)
@@ -107,7 +114,8 @@ begin
         alu_b <= rs2_value;
         alu_op <= ALU_ADD;
         immediate := resize(signed(instruction(15 downto 0)), 32);
-        branch_offset := shift_left(resize(signed(instruction(15 downto 0)), 32), 2);
+        -- Branch immediates are signed word offsets (scaled by four bytes).
+        branch_offset := shift_left(immediate, 2);
         branch_target <= std_logic_vector(signed(pc) + branch_offset);
         link_address <= std_logic_vector(unsigned(pc) + 4);
 
@@ -137,86 +145,85 @@ begin
                 trap_active <= '0';
                 memory_read_data <= (others => '0');
             elsif halted_state = '0' then
-                if IRQ = '1' and trap_active = '0' and state = FETCH then
-                    trap_taken <= '1';
+                if trap_taken = '1' then
                     pc <= mtvec;
                     trap_active <= '1';
                     state <= FETCH;
-                elsif state = EXECUTE and
-                      instruction(31 downto 26) = OP_ERET then
-                    eret <= '1';
+                elsif eret = '1' then
                     pc <= mepc;
                     trap_active <= '0';
                     state <= FETCH;
-                elsif state = EXECUTE and
-                      instruction(31 downto 26) = OP_ECALL then
-                    trap_taken <= '1';
-                    pc <= mtvec;
-                    state <= FETCH;
                 else
-                case state is
-                    when FETCH =>
-                        instruction <= INSTR_DATA;
-                        state <= DECODE;
-                    when DECODE =>
-                        state <= EXECUTE;
-                    when EXECUTE =>
-                        case instruction(31 downto 26) is
-                            when OP_BEQ =>
-                                if rs1_value = rs2_value then
+                    case state is
+                        when FETCH =>
+                            instruction <= INSTR_DATA;
+                            state <= DECODE;
+                        when DECODE =>
+                            state <= EXECUTE;
+                        when EXECUTE =>
+                            case instruction(31 downto 26) is
+                                when OP_BEQ =>
+                                    if rs1_value = rs2_value then
+                                        pc <= branch_target;
+                                    else
+                                        pc <= std_logic_vector(unsigned(pc) + 4);
+                                    end if;
+                                    state <= FETCH;
+                                when OP_BNE =>
+                                    if rs1_value /= rs2_value then
+                                        pc <= branch_target;
+                                    else
+                                        pc <= std_logic_vector(unsigned(pc) + 4);
+                                    end if;
+                                    state <= FETCH;
+                                when OP_JAL =>
                                     pc <= branch_target;
-                                else
-                                    pc <= std_logic_vector(unsigned(pc) + 4);
+                                    reg_waddr <= instruction(25 downto 21);
+                                    reg_wdata <= link_address;
+                                    reg_we <= '1';
+                                    state <= FETCH;
+                                when OP_LW | OP_SW =>
+                                    memory_address <= alu_result;
+                                    memory_write_data <= rs2_value;
+                                    if instruction(31 downto 26) = OP_LW then
+                                        memory_load <= '1';
+                                    else
+                                        memory_store <= '1';
+                                    end if;
+                                    state <= MEMORY;
+                                when OP_HALT =>
+                                    halted_state <= '1';
+                                when others =>
+                                    state <= WRITEBACK;
+                            end case;
+                        when MEMORY =>
+                            if DATA_READY = '1' then
+                                if DATA_ERROR = '0' then
+                                    memory_read_data <= DATA_RDATA;
+                                    state <= WRITEBACK;
                                 end if;
-                                state <= FETCH;
-                            when OP_BNE =>
-                                if rs1_value /= rs2_value then
-                                    pc <= branch_target;
-                                else
-                                    pc <= std_logic_vector(unsigned(pc) + 4);
-                                end if;
-                                state <= FETCH;
-                            when OP_JAL =>
-                                pc <= branch_target;
-                                reg_waddr <= instruction(25 downto 21);
-                                reg_wdata <= link_address;
-                                reg_we <= '1';
-                                state <= FETCH;
-                            when OP_LW | OP_SW =>
-                                memory_address <= alu_result;
-                                memory_write_data <= rs2_value;
-                                memory_load <= '1' when instruction(31 downto 26) = OP_LW else '0';
-                                memory_store <= '1' when instruction(31 downto 26) = OP_SW else '0';
-                                state <= MEMORY;
-                            when OP_HALT =>
-                                halted_state <= '1';
-                            when others =>
-                                state <= WRITEBACK;
-                        end case;
-                    when MEMORY =>
-                        if DATA_READY = '1' then
-                            memory_read_data <= DATA_RDATA;
-                            state <= WRITEBACK;
-                        end if;
-                    when WRITEBACK =>
-                        if instruction(31 downto 26) = OP_ALU_REG or
-                           instruction(31 downto 26) = OP_ADDI or
-                           instruction(31 downto 26) = OP_LUI then
-                            reg_waddr <= instruction(25 downto 21);
-                            if instruction(31 downto 26) = OP_LUI then
-                                reg_wdata <= instruction(15 downto 0) & x"0000";
-                            else
-                                reg_wdata <= alu_result;
+                                -- On error, trap_taken handles the transfer and
+                                -- prevents writeback of invalid data.
                             end if;
-                            reg_we <= '1';
-                        elsif instruction(31 downto 26) = OP_LW then
-                            reg_waddr <= instruction(25 downto 21);
-                            reg_wdata <= memory_read_data;
-                            reg_we <= '1';
-                        end if;
-                        pc <= std_logic_vector(unsigned(pc) + 4);
-                        state <= FETCH;
-                end case;
+                        when WRITEBACK =>
+                            if instruction(31 downto 26) = OP_ALU_REG or
+                               instruction(31 downto 26) = OP_ADDI or
+                               instruction(31 downto 26) = OP_LUI then
+                                reg_waddr <= instruction(25 downto 21);
+                                if instruction(31 downto 26) = OP_LUI then
+                                    reg_wdata <= instruction(15 downto 0) & x"0000";
+                                else
+                                    reg_wdata <= alu_result;
+                                end if;
+                                reg_we <= '1';
+                            elsif instruction(31 downto 26) = OP_LW then
+                                reg_waddr <= instruction(25 downto 21);
+                                reg_wdata <= memory_read_data;
+                                reg_we <= '1';
+                            end if;
+                            pc <= std_logic_vector(unsigned(pc) + 4);
+                            state <= FETCH;
+                    end case;
                 end if;
             end if;
         end if;
