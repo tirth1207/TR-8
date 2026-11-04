@@ -46,7 +46,7 @@ architecture RTL of TR8A32_MEMORY is
 begin
     instr_in_range <= '1' when unsigned(INSTR_ADDR(31 downto 2)) < to_unsigned(PROGRAM_WORDS, 30) else '0';
     instr_index <= to_integer(unsigned(INSTR_ADDR(31 downto 2))) when instr_in_range = '1' else 0;
-    data_in_range <= '1' when unsigned(DATA_ADDR(31 downto 10)) = 0 and
+    data_in_range <= '1' when unsigned(DATA_ADDR(31 downto 10)) = 0 and DATA_ADDR(9 downto 8) = "00" and
                               to_integer(unsigned(DATA_ADDR(9 downto 2))) < DATA_WORDS else '0';
     data_index <= to_integer(unsigned(DATA_ADDR(9 downto 2))) when data_in_range = '1' else 0;
 
